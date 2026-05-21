@@ -38,14 +38,12 @@
     </ul>
 
     <h2><span class="icon-pencil-square-o"></span> 栏目管理</h2>
-    <ul>
-        <li><a href="${pageContext.request.contextPath}/catalog?type=findall" target="right"><span class="icon-caret-right"></span> 内容管理</a></li>
-        <li><a href="${pageContext.request.contextPath}/catalog?type=register" target="right"><span class="icon-caret-right"></span> 添加内容</a></li>
-        <li><a href="${pageContext.request.contextPath}/catalog?type=cate" target="right"><span class="icon-caret-right"></span> 分类管理</a></li>
+    <ul class="open">
+        <li><a href="${pageContext.request.contextPath}/catalog/findAllCatalog" target="right"><span class="icon-caret-right"></span> 内容管理</a></li>
     </ul>
 
     <h2><span class="icon-pencil-square-o"></span> 文章管理</h2>
-    <ul>
+    <ul class="open">
         <li><a href="${pageContext.request.contextPath}/article?type=findall" target="right"><span class="icon-caret-right"></span> 内容管理</a></li>
         <li><a href="${pageContext.request.contextPath}/catalog?type=register" target="right"><span class="icon-caret-right"></span> 添加内容</a></li>
         <li><a href="${pageContext.request.contextPath}/catalog?type=cate" target="right"><span class="icon-caret-right"></span> 分类管理</a></li>

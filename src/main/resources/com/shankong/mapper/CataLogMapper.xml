@@ -3,5 +3,28 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.shankong.mapper.CataLogMapper">
+    <select id="findByPage" resultType="com.shankong.pojo.CataLog">
+        select *
+            from tb_catalog
+        where catalog_state != 2
+        order by catalog_number asc
+        limit #{limit} offset #{offset}
+    </select>
 
+    <select id="count" resultType="int">
+        select count(*)
+            from tb_catalog
+        where catalog_state != 2
+    </select>
+
+    <select id="findById" resultType="com.shankong.pojo.CataLog">
+        select *
+            from tb_catalog
+        where catalog_id = #{id}
+    </select>
+
+    <update id="softDeleteById">
+        update tb_catalog set catalog_state = 2
+            where catalog_id = #{id}
+    </update>
 </mapper>

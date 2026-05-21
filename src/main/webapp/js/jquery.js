@@ -1,25 +1,8 @@
 /* ========== 管理员登陆页面 — 记住我功能 ========== */
-(function() {
+document.addEventListener('DOMContentLoaded', function() {
     var nameInput = document.getElementById('managerName');
     var remember = document.getElementById('rememberMe');
     if (!nameInput || !remember) return;
-
-    var savedName = getCookie('rememberedManagerName');
-    if (savedName) {
-        nameInput.value = savedName;
-        remember.checked = true;
-    }
-
-    var form = document.getElementById('loginForm');
-    if (form) {
-        form.addEventListener('submit', function() {
-            if (remember.checked && nameInput.value.trim()) {
-                setCookie('rememberedManagerName', nameInput.value.trim(), 7);
-            } else if (!remember.checked) {
-                delCookie('rememberedManagerName');
-            }
-        });
-    }
 
     function setCookie(name, value, days) {
         var d = new Date();
@@ -43,10 +26,27 @@
     function delCookie(name) {
         document.cookie = encodeURIComponent(name) + '=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/';
     }
-})();
+
+    var savedName = getCookie('rememberedManagerName');
+    if (savedName) {
+        nameInput.value = savedName;
+        remember.checked = true;
+    }
+
+    var form = document.getElementById('loginForm');
+    if (form) {
+        form.addEventListener('submit', function() {
+            if (remember.checked && nameInput.value.trim()) {
+                setCookie('rememberedManagerName', nameInput.value.trim(), 7);
+            } else if (!remember.checked) {
+                delCookie('rememberedManagerName');
+            }
+        });
+    }
+});
 
 /* ========== 后台首页 — 左侧导航菜单 ========== */
-(function() {
+document.addEventListener('DOMContentLoaded', function() {
     var leftnav = document.querySelector('.leftnav');
     if (!leftnav) return;
 
@@ -56,7 +56,7 @@
         headings[i].addEventListener('click', function() {
             var ul = this.nextElementSibling;
             if (ul && ul.tagName === 'UL') {
-                slideToggle(ul, 200);
+                ul.classList.toggle('open');
             }
             this.classList.toggle('on');
         });
@@ -76,11 +76,7 @@
             this.classList.add('on');
         });
     }
-
-    function slideToggle(el) {
-        el.classList.toggle('open');
-    }
-})();
+});
 
 /* ========== 管理员列表页 — 全选 / 删除 ========== */
 document.addEventListener('DOMContentLoaded', function() {

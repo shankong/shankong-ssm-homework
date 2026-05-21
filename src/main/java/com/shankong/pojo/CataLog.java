@@ -1,5 +1,15 @@
 package com.shankong.pojo;
 
-public class CataLog {
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class CataLog {
+    private String catalogId;
+    private String catalogName;
+    private String catalogNumber;
+    private Integer catalogState;
 }

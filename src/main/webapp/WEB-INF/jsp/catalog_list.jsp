@@ -1,150 +1,172 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: lytqq
-  Date: 2025/11/24
-  Time: 11:00
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
 <html>
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <meta name="renderer" content="webkit">
-  <title></title>
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/pintuer.css">
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/admin.css">
-  <script src="${pageContext.request.contextPath}/js/jquery.js"></script>
-  <script src="${pageContext.request.contextPath}/js/pintuer.js"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>栏目列表</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/pintuer.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/admin.css">
+    <script src="${pageContext.request.contextPath}/js/jquery.js"></script>
+    <script src="${pageContext.request.contextPath}/js/pintuer.js"></script>
 </head>
-<body>
-<form method="post" action="${pageContext.request.contextPath}/catalog">
-  <div class="panel admin-panel">
-    <div class="panel-head"><strong class="icon-reorder"> 留言管理</strong></div>
-    <div class="padding border-bottom">
-      <ul class="search">
-        <li>
-          <button type="button"  class="button border-green" id="checkall"><span class="icon-check"></span> 全选本页</button>
-          <button type="submit" class="button border-red"><span class="icon-trash-o"></span> 批量删除</button>
-          <input type="hidden" value="delByIds" name="type">
-        </li>
-      </ul>
+<body class="manager-list-page">
+
+<form method="post" action="${pageContext.request.contextPath}/catalog" id="batchForm">
+    <input type="hidden" name="type" value="delByIds">
+
+    <div class="admin-panel">
+        <div class="panel-head"><strong class="icon-reorder"></strong> 栏目列表</div>
+
+        <div class="padding border-bottom">
+            <ul class="search">
+                <li>
+                    <button type="button" class="button border-green" id="checkallBtn">
+                        <span class="icon-check"></span> 全选本页
+                    </button>
+                    <button type="button" class="button border-red" id="batchDelBtn">
+                        <span class="icon-trash-o"></span> 批量删除
+                    </button>
+                </li>
+            </ul>
+        </div>
+
+        <table class="table table-hover text-center">
+            <tr>
+                <th width="60">选择</th>
+                <th width="80">序号</th>
+                <th>栏目名称</th>
+                <th>栏目序号</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr>
+            <c:choose>
+                <c:when test="${empty catalogList}">
+                    <tr>
+                        <td colspan="6">暂无栏目数据</td>
+                    </tr>
+                </c:when>
+                <c:otherwise>
+                    <c:forEach items="${catalogList}" var="catalog" varStatus="status">
+                        <tr>
+                            <td><input type="checkbox" name="catalogId" class="item-checkbox" value="${catalog.catalogId}" /></td>
+                            <td>${status.count + (currentPage - 1) * 5}</td>
+                            <td>${catalog.catalogName}</td>
+                            <td>${catalog.catalogNumber}</td>
+                            <td>
+                                <c:choose>
+                                    <c:when test="${catalog.catalogState eq 1}">启用</c:when>
+                                    <c:otherwise>禁用</c:otherwise>
+                                </c:choose>
+                            </td>
+                            <td>
+                                <div class="button-group">
+                                    <a class="button border-main" href="${pageContext.request.contextPath}/catalog/findById?id=${catalog.catalogId}">
+                                        <span class="icon-edit"></span> 修改
+                                    </a>
+                                    <a class="button border-red js-delete-btn" href="javascript:void(0)" data-id="${catalog.catalogId}">
+                                        <span class="icon-trash-o"></span> 删除
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </c:otherwise>
+            </c:choose>
+
+            <c:if test="${not empty catalogList}">
+                <tr>
+                    <td colspan="6">
+                        <div class="pagelist">
+                            <c:set var="ctx" value="${pageContext.request.contextPath}" />
+                            <c:if test="${currentPage > 1}">
+                                <a href="${ctx}/catalog/findAllCatalog?page=1">首页</a>
+                                <a href="${ctx}/catalog/findAllCatalog?page=${currentPage - 1}">上一页</a>
+                            </c:if>
+                            <span>第 ${currentPage} 页 / 共 ${totalPages} 页</span>
+                            <c:if test="${currentPage < totalPages}">
+                                <a href="${ctx}/catalog/findAllCatalog?page=${currentPage + 1}">下一页</a>
+                                <a href="${ctx}/catalog/findAllCatalog?page=${totalPages}">尾页</a>
+                            </c:if>
+                        </div>
+                    </td>
+                </tr>
+            </c:if>
+        </table>
     </div>
-    <table class="table table-hover text-center">
-      <tr>
-        <th width="120">ID</th>
-        <th>栏目名称</th>
-        <th>栏目序号</th>
-        <th>状态</th>
-        <th>操作</th>
-      </tr>
-      <c:forEach items="${catalogsList}" var="catalog">
-        <tr>
-          <td><input type="checkbox" name="catalog_id[]" class="item-checkbox"  value="${catalog.catalog_id}" />
-              ${catalog.catalog_id}</td>
-          <td>${catalog.catalog_name}</td>
-          <td>${catalog.catalog_number}</td>
-          <td>${catalog.catalog_state}</td>
-          <td><div class="button-group">
-            <a class="button border-main"
-               href="${pageContext.request.contextPath}/catalog?type=up&catalog_id=${catalog.catalog_id}&catalog_number=${catalog.catalog_number}">
-                <span class="icon-edit">
-                </span> 上移
-            </a>
-            <a class="button border-red"
-               href="${pageContext.request.contextPath}/catalog?type=down&catalog_id=${catalog.catalog_id}&catalog_number=${catalog.catalog_number}">
-                <span class="icon-trash-o">
-                </span> 下移
-            </a>
-            <a class="button border-main" href="${pageContext.request.contextPath}/catalog?type=findById&id=${catalog.catalog_id}">
-                <span class="icon-edit">
-                </span> 修改
-            </a>
-              <a class="button border-red" href="javascript:void(0)" onclick="return del(${catalog.catalog_id})">
-                <span class="icon-trash-o"></span> 删除
-              </a>
-          </div></td>
-        </tr>
-      </c:forEach>
-
-      <tr>
-        <td colspan="8">
-          <div class="pagelist">
-            <a href="${pageContext.request.contextPath}/catalog?type=findall&nowPage=1">首页</a>
-            <a href="${pageContext.request.contextPath}/catalog?type=findall&nowPage=${nowPage-1}">上一页</a>
-            <a href="${pageContext.request.contextPath}/catalog?type=findall&nowPage=${nowPage+1}">下一页</a>
-            <a href="${pageContext.request.contextPath}/catalog?type=findall&nowPage=${maxPage}">尾页</a>
-          </div>
-        </td>
-      </tr>
-    </table>
-  </div>
 </form>
-<script type="text/javascript">
 
-  function del(id){
-    if(confirm("您确定要删除吗?")){
-      var url = "${pageContext.request.contextPath}/catalog?type=del&id=" + id;
-      alert(url)
-      window.location.href = url;
+<script>
+(function() {
+    var form = document.getElementById('batchForm');
+    var checkallBtn = document.getElementById('checkallBtn');
+    var batchDelBtn = document.getElementById('batchDelBtn');
+    var itemCheckboxes = document.querySelectorAll('.item-checkbox');
+    if (!form || !checkallBtn || !batchDelBtn || itemCheckboxes.length === 0) return;
+
+    var isAllSelected = false;
+
+    function updateBtnText() {
+        checkallBtn.innerHTML = isAllSelected
+            ? '<span class="icon-check"></span> 取消全选'
+            : '<span class="icon-check"></span> 全选本页';
     }
-  }
 
-  $("#checkall").click(function(){
-    $("input[name='id[]']").each(function(){
-      if (this.checked) {
-        this.checked = false;
-      }
-      else {
-        this.checked = true;
-      }
-    });
-  })
-
-  function DelSelect(){
-    var Checkbox=false;
-    $("input[name='id[]']").each(function(){
-      if (this.checked==true) {
-        Checkbox=true;
-      }
-    });
-    if (Checkbox){
-      var t=confirm("您确认要删除选中的内容吗？");
-      if (t==true){
-
-      }
-      if (t==false) return false;
+    function updateAllState() {
+        var allChecked = true;
+        for (var i = 0; i < itemCheckboxes.length; i++) {
+            if (!itemCheckboxes[i].checked) {
+                allChecked = false;
+                break;
+            }
+        }
+        isAllSelected = allChecked;
+        updateBtnText();
     }
-    else{
-      alert("请选择您要删除的内容!");
-      return false;
+
+    checkallBtn.addEventListener('click', function() {
+        isAllSelected = !isAllSelected;
+        for (var i = 0; i < itemCheckboxes.length; i++) {
+            itemCheckboxes[i].checked = isAllSelected;
+        }
+        updateBtnText();
+    });
+
+    for (var i = 0; i < itemCheckboxes.length; i++) {
+        itemCheckboxes[i].addEventListener('change', updateAllState);
     }
-  }
 
-  const selectAllBtn = document.getElementById('checkall');
-  console.log(selectAllBtn)
-  const itemCheckboxes = document.querySelectorAll('.item-checkbox');
-
-  let isAllSelected = false;
-
-  selectAllBtn.addEventListener('click', () => {
-    isAllSelected = !isAllSelected;
-    itemCheckboxes.forEach(checkbox => {
-      checkbox.checked = isAllSelected;
+    batchDelBtn.addEventListener('click', function() {
+        var checked = document.querySelectorAll('.item-checkbox:checked');
+        if (checked.length === 0) {
+            alert('请选择您要删除的内容！');
+            return;
+        }
+        if (confirm('您确认要删除选中的' + checked.length + '条内容吗？')) {
+            form.submit();
+        }
     });
-    selectAllBtn.textContent = isAllSelected ? '取消全选' : '全选本页';
-  });
+})();
 
-  itemCheckboxes.forEach(checkbox => {
-    checkbox.addEventListener('change', () => {
-      const allChecked = Array.from(itemCheckboxes).every(item => item.checked);
-      isAllSelected = allChecked;
-      selectAllBtn.textContent = isAllSelected ? '取消全选' : '全选本页';
-    });
-  });
+/* 单条删除 — 事件委托 */
+document.addEventListener('click', function(e) {
+    var btn = e.target.closest('.js-delete-btn');
+    if (!btn) return;
+    e.preventDefault();
+    var id = btn.getAttribute('data-id');
+    if (id && confirm('您确定要删除吗？')) {
+        window.location.href = getContextPath() + '/catalog/deleteCatalog?id=' + id;
+    }
+});
+
+function getContextPath() {
+    var path = window.location.pathname;
+    var ctx = path.substring(0, path.indexOf('/', 1));
+    return ctx || '';
+}
 </script>
+
 </body>
 </html>
-
