@@ -79,4 +79,17 @@ public class CataLogController {
         cataLogService.moveDown(id);
         return "redirect:/catalog/findAllCatalog?page=" + page;
     }
+
+    //添加栏目-页面
+    @GetMapping("/catalog/addCatalog")
+    public String toAddCatalog() {
+        return "catalog_addCatalog";
+    }
+
+    //添加栏目
+    @PostMapping("/catalog/addCatalog")
+    public String addCatalog(CataLog catalog) {
+        cataLogService.addCatalog(catalog);
+        return "redirect:/catalog/findAllCatalog";
+    }
 }

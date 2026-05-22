@@ -99,9 +99,9 @@ public class ManagerController {
     }
 
     @PostMapping("/manager/toAddManager")
-    public String addManager(Manager manager) {
+    public String addManager(Manager manager, @RequestParam(defaultValue = "1") int page) {
         managerService.toAddManager(manager);
-        return "redirect:/manager/findAllManager";
+        return "redirect:/manager/findAllManager" + page;
     }
 
 }

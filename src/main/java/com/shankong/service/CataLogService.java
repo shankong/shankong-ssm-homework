@@ -19,4 +19,6 @@ public interface CataLogService {
     public void moveUp(Integer catalogId);
     //栏目下移
     public void moveDown(Integer catalogId);
+    //添加栏目
+    public void addCatalog(CataLog catalog);
 }

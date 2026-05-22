@@ -67,4 +67,10 @@
         UPDATE tb_catalog SET sort_order = #{sortOrder}
         WHERE catalog_id = #{catalogId}
     </update>
+
+    <insert id="addCatalog" useGeneratedKeys="true" keyProperty="catalogId">
+        INSERT INTO tb_catalog(catalog_name, catalog_number, catalog_state, sort_order)
+        SELECT #{catalogName}, #{catalogNumber}, #{catalogState}, COALESCE(MAX(sort_order), 0) + 1
+        FROM tb_catalog
+    </insert>
 </mapper>

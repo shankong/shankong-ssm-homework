@@ -25,4 +25,6 @@ public interface CataLogMapper {
     CataLog selectNext(@Param("sortOrder") Integer sortOrder);
 
     int updateSortOrder(@Param("catalogId") Integer catalogId, @Param("sortOrder") Integer sortOrder);
+
+    void addCatalog(CataLog catalog);
 }

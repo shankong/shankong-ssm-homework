@@ -70,4 +70,9 @@ public class CataLogServiceImpl implements CataLogService {
         cataLogMapper.updateSortOrder(next.getCatalogId(), currentOrder);
         cataLogMapper.updateSortOrder(catalogId, next.getSortOrder());
     }
+
+    @Override
+    public void addCatalog(CataLog catalog) {
+        cataLogMapper.addCatalog(catalog);
+    }
 }

@@ -40,6 +40,7 @@
     <h2><span class="icon-pencil-square-o"></span> 栏目管理</h2>
     <ul class="open">
         <li><a href="${pageContext.request.contextPath}/catalog/findAllCatalog" target="right"><span class="icon-caret-right"></span> 内容管理</a></li>
+        <li><a href="${pageContext.request.contextPath}/catalog/addCatalog" target="right"><span class="icon-caret-right"></span> 新增栏目</a></li>
     </ul>
 
     <h2><span class="icon-pencil-square-o"></span> 文章管理</h2>
