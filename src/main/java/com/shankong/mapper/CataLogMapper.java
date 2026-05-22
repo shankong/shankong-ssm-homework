@@ -15,4 +15,12 @@ public interface CataLogMapper {
     CataLog findById(@Param("id") Integer id);
 
     int softDeleteById(@Param("id") Integer id);
+
+    int updateCatalog(CataLog catalog);
+
+    int moveUp(@Param("oldOrder") Integer oldOrder, @Param("newOrder") Integer newOrder);
+
+    CataLog selectBySortOrder(@Param("sortOrder") Integer sortOrder);
+
+    int updateSortOrder(@Param("catalogId") Integer catalogId, @Param("sortOrder") Integer sortOrder);
 }

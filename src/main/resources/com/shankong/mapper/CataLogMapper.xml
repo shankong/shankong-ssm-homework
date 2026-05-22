@@ -7,7 +7,7 @@
         select *
             from tb_catalog
         where catalog_state != 2
-        order by catalog_number asc
+        order by sort_order asc
         limit #{limit} offset #{offset}
     </select>
 
@@ -26,5 +26,37 @@
     <update id="softDeleteById">
         update tb_catalog set catalog_state = 2
             where catalog_id = #{id}
+    </update>
+
+    <update id="updateCatalog">
+        update tb_catalog
+        <set>
+            <if test="catalogName != null and catalogName != ''">
+                catalog_name = #{catalogName},
+            </if>
+            <if test="catalogNumber != null and catalogNumber != ''">
+                catalog_number = #{catalogNumber},
+            </if>
+            <if test="catalogState != null">
+                catalog_state = #{catalogState},
+            </if>
+        </set>
+        where catalog_id = #{catalogId}
+    </update>
+    <update id="moveUp">
+        UPDATE tb_catalog
+        SET sort_order = #{newOrder}
+        WHERE sort_order = #{oldOrder}
+    </update>
+
+    <select id="selectBySortOrder" resultType="com.shankong.pojo.CataLog">
+        SELECT * FROM tb_catalog
+        WHERE sort_order = #{sortOrder}
+        AND catalog_state != 2
+    </select>
+
+    <update id="updateSortOrder">
+        UPDATE tb_catalog SET sort_order = #{sortOrder}
+        WHERE catalog_id = #{catalogId}
     </update>
 </mapper>

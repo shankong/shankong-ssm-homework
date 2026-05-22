@@ -63,6 +63,9 @@
                             </td>
                             <td>
                                 <div class="button-group">
+                                    <a class="button border-main" href="${pageContext.request.contextPath}/catalog/moveUp?id=${catalog.catalogId}">
+                                        <span class="icon-arrow-up"></span> 上移
+                                    </a>
                                     <a class="button border-main" href="${pageContext.request.contextPath}/catalog/findById?id=${catalog.catalogId}">
                                         <span class="icon-edit"></span> 修改
                                     </a>

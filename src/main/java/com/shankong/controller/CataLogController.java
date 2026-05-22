@@ -56,4 +56,25 @@ public class CataLogController {
         model.addAttribute("catalog", catalog);
         return "catalog_update";
     }
+
+    //修改栏目
+    @PostMapping("/catalog/updateCatalog")
+    public String updateCatalog(CataLog catalog) {
+        cataLogService.updateCatalog(catalog);
+        return "redirect:/catalog/findAllCatalog";
+    }
+
+    //上移
+    @GetMapping("/catalog/moveUp")
+    public String moveUp(Integer id) {
+        cataLogService.moveUp(id);
+        return "redirect:/catalog/findAllCatalog";
+    }
+
+    //下移
+    @GetMapping("/catalog/moveDown")
+    public String moveDown(Integer id) {
+        cataLogService.moveDown(id);
+        return "redirect:/catalog/findAllCatalog";
+    }
 }

@@ -8,8 +8,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CataLog {
-    private String catalogId;
+    private Integer catalogId;
     private String catalogName;
     private String catalogNumber;
     private Integer catalogState;
+    private Integer sortOrder;
 }

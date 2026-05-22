@@ -35,4 +35,43 @@ public class CataLogServiceImpl implements CataLogService {
     public void softDeleteCatalog(Integer id) {
         cataLogMapper.softDeleteById(id);
     }
+
+    @Override
+    public void updateCatalog(CataLog catalog) {
+        cataLogMapper.updateCatalog(catalog);
+    }
+
+    @Override
+    public void moveUp(Integer catalogId) {
+        CataLog catalog = cataLogMapper.findById(catalogId);
+        Integer currentOrder = catalog.getSortOrder();
+        if (currentOrder == null || currentOrder <= 1) return;
+
+        CataLog preCatalog = cataLogMapper.selectBySortOrder(currentOrder - 1);
+        if (preCatalog == null) return;
+
+        // 三步交换，避免违反 UNIQUE 约束
+        int tempOrder = -1;
+        cataLogMapper.updateSortOrder(catalogId, tempOrder);
+        cataLogMapper.updateSortOrder(preCatalog.getCatalogId(), currentOrder);
+        cataLogMapper.updateSortOrder(catalogId, preCatalog.getSortOrder());
+    }
+
+    @Override
+    public void moveDown(Integer catalogId) {
+        //查询栏目总数
+        int count = cataLogMapper.count();
+        CataLog catalog = cataLogMapper.findById(catalogId);
+        Integer currentOrder = catalog.getSortOrder();
+        if (currentOrder == null || currentOrder >= count) return;
+
+        CataLog preCatalog = cataLogMapper.selectBySortOrder(currentOrder + 1);
+        if (preCatalog == null) return;
+
+        // 三步交换，避免违反 UNIQUE 约束
+        int tempOrder = -1;
+        cataLogMapper.updateSortOrder(catalogId, tempOrder);
+        cataLogMapper.updateSortOrder(preCatalog.getCatalogId(), currentOrder);
+        cataLogMapper.updateSortOrder(catalogId, preCatalog.getSortOrder());
+    }
 }
