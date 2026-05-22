@@ -13,7 +13,7 @@ public class CataLogTest {
                     new ClassPathXmlApplicationContext("classpath:config/applicationContext.xml");
             CataLogService cataLogService = context.getBean(CataLogService.class);
 
-            cataLogService.moveUp(5);
+            cataLogService.moveDown(9);
 
         } catch (Exception e) {
             e.printStackTrace();

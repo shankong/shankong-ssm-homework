@@ -160,6 +160,7 @@
 
     <form class="update-form" method="post" action="${pageContext.request.contextPath}/catalog/updateCatalog">
         <input type="hidden" name="catalogId" value="${catalog.catalogId}" />
+        <input type="hidden" name="page" value="${page}" />
 
         <div class="form-row">
             <div class="form-label">

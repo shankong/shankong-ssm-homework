@@ -18,9 +18,11 @@ public interface CataLogMapper {
 
     int updateCatalog(CataLog catalog);
 
-    int moveUp(@Param("oldOrder") Integer oldOrder, @Param("newOrder") Integer newOrder);
+    int move(@Param("oldOrder") Integer oldOrder, @Param("newOrder") Integer newOrder);
 
-    CataLog selectBySortOrder(@Param("sortOrder") Integer sortOrder);
+    CataLog selectPrevious(@Param("sortOrder") Integer sortOrder);
+
+    CataLog selectNext(@Param("sortOrder") Integer sortOrder);
 
     int updateSortOrder(@Param("catalogId") Integer catalogId, @Param("sortOrder") Integer sortOrder);
 }

@@ -16,6 +16,7 @@
 
 <form method="post" action="${pageContext.request.contextPath}/catalog" id="batchForm">
     <input type="hidden" name="type" value="delByIds">
+    <input type="hidden" name="page" value="${currentPage}">
 
     <div class="admin-panel">
         <div class="panel-head"><strong class="icon-reorder"></strong> 栏目列表</div>
@@ -63,10 +64,13 @@
                             </td>
                             <td>
                                 <div class="button-group">
-                                    <a class="button border-main" href="${pageContext.request.contextPath}/catalog/moveUp?id=${catalog.catalogId}">
+                                    <a class="button border-main" href="${pageContext.request.contextPath}/catalog/moveUp?id=${catalog.catalogId}&page=${currentPage}">
                                         <span class="icon-arrow-up"></span> 上移
                                     </a>
-                                    <a class="button border-main" href="${pageContext.request.contextPath}/catalog/findById?id=${catalog.catalogId}">
+                                    <a class="button border-main" href="${pageContext.request.contextPath}/catalog/moveDown?id=${catalog.catalogId}&page=${currentPage}">
+                                        <span class="icon-arrow-down"></span> 下移
+                                    </a>
+                                    <a class="button border-main" href="${pageContext.request.contextPath}/catalog/findById?id=${catalog.catalogId}&page=${currentPage}">
                                         <span class="icon-edit"></span> 修改
                                     </a>
                                     <a class="button border-red js-delete-btn" href="javascript:void(0)" data-id="${catalog.catalogId}">
@@ -160,7 +164,7 @@ document.addEventListener('click', function(e) {
     e.preventDefault();
     var id = btn.getAttribute('data-id');
     if (id && confirm('您确定要删除吗？')) {
-        window.location.href = getContextPath() + '/catalog/deleteCatalog?id=' + id;
+        window.location.href = getContextPath() + '/catalog/deleteCatalog?id=' + id + '&page=${currentPage}';
     }
 });
 

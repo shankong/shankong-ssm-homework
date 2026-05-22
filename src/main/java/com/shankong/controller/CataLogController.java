@@ -33,48 +33,50 @@ public class CataLogController {
 
     //软删除
     @GetMapping("/catalog/deleteCatalog")
-    public String deleteCatalog(Integer id) {
+    public String deleteCatalog(Integer id, @RequestParam(defaultValue = "1") int page) {
         cataLogService.softDeleteCatalog(id);
-        return "redirect:/catalog/findAllCatalog";
+        return "redirect:/catalog/findAllCatalog?page=" + page;
     }
 
     //批量软删除
     @PostMapping("/catalog")
-    public String batchDelete(String type, @RequestParam("catalogId") List<Integer> ids) {
+    public String batchDelete(String type, @RequestParam("catalogId") List<Integer> ids,
+                              @RequestParam(defaultValue = "1") int page) {
         if ("delByIds".equals(type) && ids != null) {
             for (Integer id : ids) {
                 cataLogService.softDeleteCatalog(id);
             }
         }
-        return "redirect:/catalog/findAllCatalog";
+        return "redirect:/catalog/findAllCatalog?page=" + page;
     }
 
     //按ID查询
     @GetMapping("/catalog/findById")
-    public String findById(Integer id, Model model) {
+    public String findById(Integer id, Model model, @RequestParam(defaultValue = "1") int page) {
         CataLog catalog = cataLogService.findById(id);
         model.addAttribute("catalog", catalog);
+        model.addAttribute("page", page);
         return "catalog_update";
     }
 
     //修改栏目
     @PostMapping("/catalog/updateCatalog")
-    public String updateCatalog(CataLog catalog) {
+    public String updateCatalog(CataLog catalog, @RequestParam(defaultValue = "1") int page) {
         cataLogService.updateCatalog(catalog);
-        return "redirect:/catalog/findAllCatalog";
+        return "redirect:/catalog/findAllCatalog?page=" + page;
     }
 
     //上移
     @GetMapping("/catalog/moveUp")
-    public String moveUp(Integer id) {
+    public String moveUp(Integer id, @RequestParam(defaultValue = "1") int page) {
         cataLogService.moveUp(id);
-        return "redirect:/catalog/findAllCatalog";
+        return "redirect:/catalog/findAllCatalog?page=" + page;
     }
 
     //下移
     @GetMapping("/catalog/moveDown")
-    public String moveDown(Integer id) {
+    public String moveDown(Integer id, @RequestParam(defaultValue = "1") int page) {
         cataLogService.moveDown(id);
-        return "redirect:/catalog/findAllCatalog";
+        return "redirect:/catalog/findAllCatalog?page=" + page;
     }
 }

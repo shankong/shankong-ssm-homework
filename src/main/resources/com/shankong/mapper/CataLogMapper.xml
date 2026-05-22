@@ -43,16 +43,24 @@
         </set>
         where catalog_id = #{catalogId}
     </update>
-    <update id="moveUp">
+    <update id="move">
         UPDATE tb_catalog
         SET sort_order = #{newOrder}
         WHERE sort_order = #{oldOrder}
     </update>
 
-    <select id="selectBySortOrder" resultType="com.shankong.pojo.CataLog">
+    <select id="selectPrevious" resultType="com.shankong.pojo.CataLog">
         SELECT * FROM tb_catalog
-        WHERE sort_order = #{sortOrder}
-        AND catalog_state != 2
+        WHERE sort_order &lt; #{sortOrder} AND catalog_state != 2
+        ORDER BY sort_order DESC
+        LIMIT 1
+    </select>
+
+    <select id="selectNext" resultType="com.shankong.pojo.CataLog">
+        SELECT * FROM tb_catalog
+        WHERE sort_order &gt; #{sortOrder} AND catalog_state != 2
+        ORDER BY sort_order ASC
+        LIMIT 1
     </select>
 
     <update id="updateSortOrder">

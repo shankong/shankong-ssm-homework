@@ -16,6 +16,7 @@
 
 <form method="post" action="${pageContext.request.contextPath}/manager" id="batchForm">
     <input type="hidden" name="type" value="delByIds">
+    <input type="hidden" name="page" value="${currentPage}">
 
     <div class="admin-panel">
         <div class="panel-head"><strong class="icon-reorder"></strong> 管理员列表</div>
@@ -58,7 +59,7 @@
                             <td>${manager.managerState}</td>
                             <td>
                                 <div class="button-group">
-                                    <a class="button border-main" href="${pageContext.request.contextPath}/manager/findById?id=${manager.managerId}">
+                                    <a class="button border-main" href="${pageContext.request.contextPath}/manager/findById?id=${manager.managerId}&page=${currentPage}">
                                         <span class="icon-edit"></span> 修改
                                     </a>
                                     <a class="button border-red js-delete-btn" href="javascript:void(0)" data-id="${manager.managerId}">
@@ -144,6 +145,23 @@
         }
     });
 })();
+
+/* 单条删除 — 事件委托 */
+document.addEventListener('click', function(e) {
+    var btn = e.target.closest('.js-delete-btn');
+    if (!btn) return;
+    e.preventDefault();
+    var id = btn.getAttribute('data-id');
+    if (id && confirm('您确定要删除吗？')) {
+        window.location.href = getContextPath() + '/manager/updateManagerState?id=' + id + '&page=${currentPage}';
+    }
+});
+
+function getContextPath() {
+    var path = window.location.pathname;
+    var ctx = path.substring(0, path.indexOf('/', 1));
+    return ctx || '';
+}
 </script>
 
 </body>

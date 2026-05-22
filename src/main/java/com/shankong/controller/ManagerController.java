@@ -55,40 +55,42 @@ public class ManagerController {
 
     //数据库真删除
     @GetMapping("/manager/deleteManager")
-    public String deleteManager(Integer id) {
+    public String deleteManager(Integer id, @RequestParam(defaultValue = "1") int page) {
         managerService.deleteManager(id);
-        return "redirect:/manager/findAllManager";
+        return "redirect:/manager/findAllManager?page=" + page;
     }
 
     //更改状态码假删除,state=2为删除
     @GetMapping("/manager/updateManagerState")
-    public String updateManagerState(Integer id) {
+    public String updateManagerState(Integer id, @RequestParam(defaultValue = "1") int page) {
         managerService.softDeleteManager(id);
-        return "redirect:/manager/findAllManager";
+        return "redirect:/manager/findAllManager?page=" + page;
     }
 
     //批量软删除
     @PostMapping("/manager")
-    public String batchDelete(String type, @RequestParam("managerId") List<Integer> ids) {
+    public String batchDelete(String type, @RequestParam("managerId") List<Integer> ids,
+                              @RequestParam(defaultValue = "1") int page) {
         if ("delByIds".equals(type) && ids != null) {
             for (Integer id : ids) {
                 managerService.softDeleteManager(id);
             }
         }
-        return "redirect:/manager/findAllManager";
+        return "redirect:/manager/findAllManager?page=" + page;
     }
 
     @GetMapping("/manager/findById")
-    public String findById(Integer id, Model model) {
+    public String findById(Integer id, Model model, @RequestParam(defaultValue = "1") int page) {
         Manager manager = managerService.findById(id);
         model.addAttribute("manager", manager);
+        model.addAttribute("page", page);
         return "manager_update";
     }
 
     @PostMapping("/manager/updateManager")
-    public String updateManager(Manager manager) {
+    public String updateManager(Manager manager, @RequestParam(defaultValue = "1") int page) {
         managerService.updateManager(manager);
-        return "redirect:/manager/findAllManager";
+        return "redirect:/manager/findAllManager?page=" + page;
     }
 
     @GetMapping("/manager/toAddManager")
