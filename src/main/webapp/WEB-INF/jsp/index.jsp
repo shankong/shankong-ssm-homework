@@ -53,14 +53,14 @@
 
 <div class="main-content">
     <ul class="bread">
-        <li><a href="${pageContext.request.contextPath}/manager?type=toright" target="right"><span class="icon-home"></span> 首页</a></li>
+        <li><a href="${pageContext.request.contextPath}/manager/findAllManager" target="right"><span class="icon-home"></span> 首页</a></li>
         <li><a href="#" id="a_leader_txt">网站信息</a></li>
         <li><b>当前语言：</b><span class="text-red">中文</span></li>
         <li>切换语言：<a href="#">中文</a> | <a href="#">英文</a></li>
     </ul>
 
     <div class="admin">
-        <iframe src="${pageContext.request.contextPath}/manager?type=toright" name="right" frameborder="0" scrolling="auto"></iframe>
+        <iframe src="${pageContext.request.contextPath}/manager/findAllManager" name="right" frameborder="0" scrolling="auto"></iframe>
     </div>
 
     <div class="index-footer">
