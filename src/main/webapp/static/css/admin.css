@@ -68,9 +68,13 @@ body.login-page {
     border-radius: 6px;
     margin-bottom: 24px;
     font-size: 14px;
-    display: flex;
+    display: none;
     align-items: center;
     gap: 8px;
+}
+
+.error-msg.show {
+    display: flex;
 }
 
 .error-msg .icon-warning {
@@ -727,7 +731,19 @@ body.manager-list-page {
     transform: translateY(-1px);
 }
 
-/* 通用辅助类 */
+.update-form .form-field input.input-error {
+    border-color: #e53935;
+    background: #fff8f8;
+}
+
+/* body for form pages rendered in iframe */
+body.form-page {
+    font-family: "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+    background-color: #f2f9fd;
+    font-size: 14px;
+    color: #333;
+    padding: 20px;
+}
 .margin-big-left { margin-left: 20px; }
 .margin-big-bottom { margin-bottom: 20px; }
 .fadein-top { animation: fadeInTop 0.3s ease; }

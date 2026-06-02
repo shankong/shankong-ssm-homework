@@ -6,16 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>后台管理中心</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/pintuer.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/admin.css">
-    <script src="${pageContext.request.contextPath}/js/jquery.js"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/admin.css">
+    <script src="${pageContext.request.contextPath}/static/js/jquery.js"></script>
 </head>
 <body class="index-page">
 
 <div class="header bg-main">
     <div class="logo margin-big-left fadein-top">
         <h1>
-            <img src="${pageContext.request.contextPath}/images/y.jpg" class="radius-circle" height="50" alt="" />
+            <img src="${pageContext.request.contextPath}/static/images/y.jpg" class="radius-circle" height="50" alt="" />
             后台管理中心
         </h1>
     </div>
@@ -45,9 +44,9 @@
 
     <h2><span class="icon-pencil-square-o"></span> 文章管理</h2>
     <ul class="open">
-        <li><a href="${pageContext.request.contextPath}/article?type=findall" target="right"><span class="icon-caret-right"></span> 内容管理</a></li>
-        <li><a href="${pageContext.request.contextPath}/catalog?type=register" target="right"><span class="icon-caret-right"></span> 添加内容</a></li>
-        <li><a href="${pageContext.request.contextPath}/catalog?type=cate" target="right"><span class="icon-caret-right"></span> 分类管理</a></li>
+        <li><a href="javascript:void(0)" target="right"><span class="icon-caret-right"></span> 内容管理</a></li>
+        <li><a href="javascript:void(0)" target="right"><span class="icon-caret-right"></span> 添加内容</a></li>
+        <li><a href="javascript:void(0)" target="right"><span class="icon-caret-right"></span> 分类管理</a></li>
     </ul>
 </div>
 

@@ -13,6 +13,9 @@ public interface CataLogService {
     public CataLog findById(Integer id);
     //软删除栏目
     public void softDeleteCatalog(Integer id);
+
+    //批量软删除栏目
+    public void batchSoftDeleteCatalog(List<Integer> ids);
     //修改栏目
     public void updateCatalog(CataLog catalog);
     //栏目上移

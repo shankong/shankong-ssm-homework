@@ -21,33 +21,10 @@ public class ManagerServiceImpl implements ManagerService {
         return result != null && result.getManagerId() != null;
     }
 
-   /* @Override
-    public List<Manager> findAllManager() {
-        List<Manager> managerList = managerMapper.findAllManager();
-        for(Manager manager : managerList){
-            manager.setManagerPwd("******");
-            if(manager.getManagerState().equals("1")){
-                manager.setManagerState("启用");
-            }else if(manager.getManagerState().equals("0")){
-                manager.setManagerState("禁用");
-            }
-        }
-        return managerList;
-    }*/
-
     @Override
     public List<Manager> findByPage(int page, int pageSize) {
         int offset = (page - 1) * pageSize;
-        List<Manager> managerList = managerMapper.findByPage(offset, pageSize);
-        for(Manager manager : managerList){
-            manager.setManagerPwd("******");
-            if(manager.getManagerState().equals("1")){
-                manager.setManagerState("启用");
-            }else if(manager.getManagerState().equals("0")){
-                manager.setManagerState("禁用");
-            }
-        }
-        return managerList;
+        return managerMapper.findByPage(offset, pageSize);
     }
 
     @Override
@@ -63,6 +40,11 @@ public class ManagerServiceImpl implements ManagerService {
     @Override
     public void softDeleteManager(Integer id) {
         managerMapper.softDeleteById(id);
+    }
+
+    @Override
+    public void batchSoftDeleteManager(List<Integer> ids) {
+        managerMapper.batchSoftDelete(ids);
     }
 
     @Override

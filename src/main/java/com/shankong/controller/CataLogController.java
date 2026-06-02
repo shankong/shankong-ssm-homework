@@ -28,6 +28,7 @@ public class CataLogController {
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", totalPages);
         model.addAttribute("totalCount", totalCount);
+        model.addAttribute("pageSize", pageSize);
         return "catalog_list";
     }
 
@@ -42,10 +43,8 @@ public class CataLogController {
     @PostMapping("/catalog")
     public String batchDelete(String type, @RequestParam("catalogId") List<Integer> ids,
                               @RequestParam(defaultValue = "1") int page) {
-        if ("delByIds".equals(type) && ids != null) {
-            for (Integer id : ids) {
-                cataLogService.softDeleteCatalog(id);
-            }
+        if ("delByIds".equals(type) && ids != null && !ids.isEmpty()) {
+            cataLogService.batchSoftDeleteCatalog(ids);
         }
         return "redirect:/catalog/findAllCatalog?page=" + page;
     }

@@ -8,11 +8,6 @@
             from tb_manager
             where manager_name=#{managerName} and manager_pwd=#{managerPwd} and manager_state != '2'
     </select>
-    <!--<select id="findAllManager" resultType="com.shankong.pojo.Manager">
-        select *
-            from tb_manager
-        where manager_state != '2'
-    </select>-->
 
     <select id="findByPage" resultType="com.shankong.pojo.Manager">
         select *
@@ -35,6 +30,14 @@
         update tb_manager set manager_state = '2'
             where manager_id = #{id}
     </update>
+
+    <update id="batchSoftDelete">
+        update tb_manager set manager_state = '2'
+        where manager_id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
     <update id="updateManager">
         update tb_manager
         <set>
@@ -55,6 +58,11 @@
             from tb_manager
             where manager_id = #{id}
     </select>
+    <select id="findByManagerName" resultType="com.shankong.pojo.Manager">
+        select * from tb_manager
+        where manager_name = #{managerName}
+    </select>
+
     <insert id="toAddManager">
         insert into tb_manager(manager_name,manager_pwd,manager_state)
         values(#{managerName},#{managerPwd},#{managerState})

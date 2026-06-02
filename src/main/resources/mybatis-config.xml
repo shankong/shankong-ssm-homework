@@ -4,12 +4,9 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
     <settings>
+        <!-- 下划线转驼峰: manager_name → managerName -->
         <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <!-- SQL 日志输出到控制台 -->
         <setting name="logImpl" value="STDOUT_LOGGING"/>
-        <setting name="cacheEnabled" value="true"/>
     </settings>
-
-    <mappers>
-       <package name="com.shankong.mapper"/>
-    </mappers>
 </configuration>

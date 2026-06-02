@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>管理员登陆</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/admin.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/admin.css">
 </head>
 <body class="login-page">
 <div class="login-container">
@@ -18,7 +18,7 @@
     </div>
     <div class="login-body">
         <c:if test="${not empty error}">
-            <div class="error-msg">
+            <div class="error-msg show">
                 <span class="icon-warning">&#9888;</span>
                 <span>${error}</span>
             </div>
@@ -40,7 +40,7 @@
             </div>
             <div class="form-extra">
                 <label class="remember-me">
-                    <input type="checkbox" id="rememberMe" />
+                    <input type="checkbox" name="remember" id="rememberMe" />
                     <span>记住我</span>
                 </label>
             </div>
@@ -51,6 +51,6 @@
         &copy; 2026 后台管理系统 · 管理员登陆
     </div>
 </div>
-<script src="${pageContext.request.contextPath}/js/jquery.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/jquery.js"></script>
 </body>
 </html>

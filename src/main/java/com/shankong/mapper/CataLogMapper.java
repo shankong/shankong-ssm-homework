@@ -16,9 +16,9 @@ public interface CataLogMapper {
 
     int softDeleteById(@Param("id") Integer id);
 
-    int updateCatalog(CataLog catalog);
+    int batchSoftDelete(@Param("ids") List<Integer> ids);
 
-    int move(@Param("oldOrder") Integer oldOrder, @Param("newOrder") Integer newOrder);
+    int updateCatalog(CataLog catalog);
 
     CataLog selectPrevious(@Param("sortOrder") Integer sortOrder);
 

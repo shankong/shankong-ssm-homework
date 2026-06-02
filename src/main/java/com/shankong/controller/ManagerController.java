@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
@@ -19,24 +20,23 @@ public class ManagerController {
     private ManagerService managerService;
 
     @GetMapping("/login")
-    public String toLogin() {
+    public String toLogin(HttpServletRequest request, Model model) {
+        // Spring Security redirects to /login?error on auth failure
+        if (request.getParameter("error") != null) {
+            model.addAttribute("error", "账号或密码错误");
+        }
         return "login";
+    }
+
+    @GetMapping("/index")
+    public String index() {
+        return "index";
     }
 
     @GetMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate();
         return "redirect:/login";
-    }
-    @PostMapping("/login")
-    public String login(Manager manager, Model model, HttpSession session) {
-        if(managerService.login(manager)){
-            session.setAttribute("loginManager", manager);
-            return "index";
-        }else{
-            model.addAttribute("error", "用户名或密码错误，请重新输入！");
-            return "login";
-        }
     }
 
     //分页查询
@@ -71,10 +71,8 @@ public class ManagerController {
     @PostMapping("/manager")
     public String batchDelete(String type, @RequestParam("managerId") List<Integer> ids,
                               @RequestParam(defaultValue = "1") int page) {
-        if ("delByIds".equals(type) && ids != null) {
-            for (Integer id : ids) {
-                managerService.softDeleteManager(id);
-            }
+        if ("delByIds".equals(type) && ids != null && !ids.isEmpty()) {
+            managerService.batchSoftDeleteManager(ids);
         }
         return "redirect:/manager/findAllManager?page=" + page;
     }
@@ -101,7 +99,7 @@ public class ManagerController {
     @PostMapping("/manager/toAddManager")
     public String addManager(Manager manager, @RequestParam(defaultValue = "1") int page) {
         managerService.toAddManager(manager);
-        return "redirect:/manager/findAllManager" + page;
+        return "redirect:/manager/findAllManager?page=" + page;
     }
 
 }

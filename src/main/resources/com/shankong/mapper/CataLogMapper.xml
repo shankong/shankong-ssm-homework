@@ -28,6 +28,14 @@
             where catalog_id = #{id}
     </update>
 
+    <update id="batchSoftDelete">
+        update tb_catalog set catalog_state = 2
+        where catalog_id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
     <update id="updateCatalog">
         update tb_catalog
         <set>
@@ -42,11 +50,6 @@
             </if>
         </set>
         where catalog_id = #{catalogId}
-    </update>
-    <update id="move">
-        UPDATE tb_catalog
-        SET sort_order = #{newOrder}
-        WHERE sort_order = #{oldOrder}
     </update>
 
     <select id="selectPrevious" resultType="com.shankong.pojo.CataLog">

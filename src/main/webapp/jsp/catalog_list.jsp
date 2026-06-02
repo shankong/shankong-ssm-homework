@@ -7,14 +7,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>栏目列表</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/pintuer.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/admin.css">
-    <script src="${pageContext.request.contextPath}/js/jquery.js"></script>
-    <script src="${pageContext.request.contextPath}/js/pintuer.js"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/admin.css">
+    <script src="${pageContext.request.contextPath}/static/js/jquery.js"></script>
 </head>
 <body class="manager-list-page">
 
-<form method="post" action="${pageContext.request.contextPath}/catalog" id="batchForm">
+<form method="post" action="${pageContext.request.contextPath}/catalog" id="batchForm" data-delete-url="/catalog/deleteCatalog">
     <input type="hidden" name="type" value="delByIds">
     <input type="hidden" name="page" value="${currentPage}">
 
@@ -53,7 +51,7 @@
                     <c:forEach items="${catalogList}" var="catalog" varStatus="status">
                         <tr>
                             <td><input type="checkbox" name="catalogId" class="item-checkbox" value="${catalog.catalogId}" /></td>
-                            <td>${status.count + (currentPage - 1) * 5}</td>
+                            <td>${status.count + (currentPage - 1) * pageSize}</td>
                             <td>${catalog.catalogName}</td>
                             <td>${catalog.catalogNumber}</td>
                             <td>
@@ -105,75 +103,7 @@
     </div>
 </form>
 
-<script>
-(function() {
-    var form = document.getElementById('batchForm');
-    var checkallBtn = document.getElementById('checkallBtn');
-    var batchDelBtn = document.getElementById('batchDelBtn');
-    var itemCheckboxes = document.querySelectorAll('.item-checkbox');
-    if (!form || !checkallBtn || !batchDelBtn || itemCheckboxes.length === 0) return;
-
-    var isAllSelected = false;
-
-    function updateBtnText() {
-        checkallBtn.innerHTML = isAllSelected
-            ? '<span class="icon-check"></span> 取消全选'
-            : '<span class="icon-check"></span> 全选本页';
-    }
-
-    function updateAllState() {
-        var allChecked = true;
-        for (var i = 0; i < itemCheckboxes.length; i++) {
-            if (!itemCheckboxes[i].checked) {
-                allChecked = false;
-                break;
-            }
-        }
-        isAllSelected = allChecked;
-        updateBtnText();
-    }
-
-    checkallBtn.addEventListener('click', function() {
-        isAllSelected = !isAllSelected;
-        for (var i = 0; i < itemCheckboxes.length; i++) {
-            itemCheckboxes[i].checked = isAllSelected;
-        }
-        updateBtnText();
-    });
-
-    for (var i = 0; i < itemCheckboxes.length; i++) {
-        itemCheckboxes[i].addEventListener('change', updateAllState);
-    }
-
-    batchDelBtn.addEventListener('click', function() {
-        var checked = document.querySelectorAll('.item-checkbox:checked');
-        if (checked.length === 0) {
-            alert('请选择您要删除的内容！');
-            return;
-        }
-        if (confirm('您确认要删除选中的' + checked.length + '条内容吗？')) {
-            form.submit();
-        }
-    });
-})();
-
-/* 单条删除 — 事件委托 */
-document.addEventListener('click', function(e) {
-    var btn = e.target.closest('.js-delete-btn');
-    if (!btn) return;
-    e.preventDefault();
-    var id = btn.getAttribute('data-id');
-    if (id && confirm('您确定要删除吗？')) {
-        window.location.href = getContextPath() + '/catalog/deleteCatalog?id=' + id + '&page=${currentPage}';
-    }
-});
-
-function getContextPath() {
-    var path = window.location.pathname;
-    var ctx = path.substring(0, path.indexOf('/', 1));
-    return ctx || '';
-}
-</script>
+<script src="${pageContext.request.contextPath}/static/js/admin.js"></script>
 
 </body>
 </html>

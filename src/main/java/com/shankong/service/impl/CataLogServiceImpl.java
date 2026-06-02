@@ -37,6 +37,11 @@ public class CataLogServiceImpl implements CataLogService {
     }
 
     @Override
+    public void batchSoftDeleteCatalog(List<Integer> ids) {
+        cataLogMapper.batchSoftDelete(ids);
+    }
+
+    @Override
     public void updateCatalog(CataLog catalog) {
         cataLogMapper.updateCatalog(catalog);
     }
